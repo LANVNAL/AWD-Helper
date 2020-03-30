@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Target{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <style></style>
+{% endblock %}
+
+{% block body %}
+    {{ super() }}
+
+<div class="jumbotron">
+
+    <p>
+         python ProcessDetection.py  平台接收地址 <br>
+         eg: python ProcessDetection.py http://127.0.0.1:5000/processlog
+    </p>
+
+</div>
+
+<div class="bs-example" data-example-id="body-copy" style="overflow :auto;max-height: 400px">
+{{ log|safe }}
+
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Target{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <style></style>
+{% endblock %}
+
+{% block body %}
+    {{ super() }}
+
+<div class="jumbotron">
+
+    <p>
+         1.备份目录到可写目录下 <br>
+         2.python FileProtector.py 备份目录路径 原目录路径 变化文件保存路径 平台接收地址 <br>
+         eg: python FileProtector.py ~/html /var/www/html ~/diflog http://127.0.0.1:5000/filelog
+    </p>
+
+</div>
+
+<div class="bs-example" data-example-id="body-copy" style="overflow :auto;max-height: 400px">
+{{ log|safe }}
+
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block title %}Target{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <style></style>
+    <script type="text/javascript">
+    $("#Big_shell").modal("hide");  //绑定模态框id
+    function Values(IP) {
+        $("#ip").val(IP);   //向带IP标签带input传定义好的值
+    }
+    </script>
+{% endblock %}
+
+{% block body %}
+    {{ super() }}
+
+
+
+    <div class="tabbable" id="tabs-913419">
+    <ul class="nav nav-tabs">
+        {% for s in server %}
+        <li >
+             <a href="{{ url_for('shell',server=s) }}">{{ s }}</a>
+        </li>
+
+        {% endfor %}
+    </ul>
+
+    </div>
+
+
+
+
+    <form class="form-inline navbar-form form-row" action="{{ url_for('shell') }}" method="post">
+      <div class="form-group">
+        <label >{{ server_show }}</label>
+        <input type="hidden" name="server" value="{{ server_show }}">
+        <select name="ip" class="form-control">
+            {% for s in data %}
+            <option value="{{ s.ip }}">{{ s.ip }}</option>
+            {% endfor %}
+        </select>
+        <input type="url" style="min-width: 400px" class="form-control" name="one-shell" placeholder="填入一句话shell地址">
+        <div class="checkbox">
+            <label>
+              <input type="checkbox" name="all_same"> 通用
+            </label>
+          </div>
+        </div>
+      <input type="submit" class="btn btn-primary" name="add_one" value="提交">
+    </form>
+
+    <form class="form-inline navbar-form form-row" action="{{ url_for('shell') }}" method="post">
+        <select name="server" class="form-control">
+            {% for s in server %}
+            <option value="{{ s }}">{{ s }}</option>
+            {% endfor %}
+        </select>
+        <input type="text" class="form-control" name="pwd" placeholder="填入一句话shell的密码">
+        <input type="text" class="form-control" style="min-width: 280px" name="shell_path" placeholder="填入新shell的地址（默认./.config.php）">
+        <input type="button" class="btn btn-success" name="memory_shell" value="一键上内存马"/>
+    </form>
+    <form>
+    <input type="button" class="btn btn-info" value="一键XXXXXX"/>
+    <input type="button" class="btn btn-warning" value="一键XXXXXX"/>
+    </form>
+
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    题目
+                </th>
+                <th>
+                    主机IP
+                </th>
+                <th>
+                    状态
+                </th>
+                <th>
+                    大马
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for msg in data %}
+            <tr class="right">
+                <td>
+                    {{ msg.server }}
+                </td>
+                <td>
+                    {{ msg.ip }}
+                </td>
+                <td>
+                    {% if msg.status == 'control' %}
+                    <span class="label label-success">
+                    {{ msg.status }}
+                    </span>
+                    {% else %}
+                    <span class="label label-default">
+                    {{ msg.status }}
+                    </span>
+                    {% endif %}
+                </td>
+                <td>
+                    <input type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#Big_shell" onclick="Values('{{ msg.ip }}')" value="上大马">
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <form action="{{ url_for('target') }}" method="post" class="form-inline navbar-form form-row">
+        <input type="number" class="form-control" name="second" placeholder="检测间隔时间（秒）">
+        <input type="submit" class="btn btn-success" name="status" value="开始监测各shell状态" >
+    </form>
+
+    <div class="modal fade" id="Big_shell" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        上传大马
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url_for('shell') }}" method="post">
+                        <input type="hidden" name="ip" id="ip" >
+                      <div class="form-group">
+                        <label>选择大马</label>
+                        <select name="big_shell" class="form-control">
+                            {% for shell in shells %}
+                                <option value="{{ shell }}">{{ shell }}</option>
+                            {% endfor %}
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label>输入保存路径</label>
+                        <input type="text" class="form-control" name="bshell_path" placeholder="填入shell的地址（默认./shell.php）">
+                      </div>
+                      <input type="submit" class="form-control btn-primary btn" name="send_bshell"  value="上大马">
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+{% endblock %}

@@ -1,0 +1,240 @@
+{% extends "base.html" %}
+{% block title %}Target{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <style></style>
+    <script type="text/javascript">
+    $("#Note").modal("hide");  //绑定模态框id
+    $("#Delete").modal("hide");  //绑定模态框id
+    function Values(note) {
+        $("#note").val(note);   //向带note标签带input传定义好的值
+    };
+    function Values_hid(ip) {
+        $("#hid_ip").val(ip);   //向带hid_ip标签带input传定义好的值
+        $("#hid_ip2").val(ip);
+    };
+
+
+    </script>
+{% endblock %}
+
+{% block body %}
+    {{ super() }}
+
+
+
+    <form action="{{ url_for('target') }}" method="post" class="navbar-form ">
+        <div class="form-inline">
+            <input type="text" name="server" class="form-control" placeholder="Server" />
+            <input type="text" name="ip" class="form-control" placeholder="主机IP" />
+            <select name="status" class="form-control">
+                <option value="online">online</option>
+                <option value="no online">not online</option>
+            </select>
+            <input type="text" name="remarks" class="form-control" placeholder="备注" />
+            <input type="submit" name="add_one" value="手动添加" class="btn btn-primary"/>
+        </div>
+    </form>
+
+    <form action="{{ url_for('target') }}" method="post" class="navbar-form">
+        <div class="form-inline">
+            <input type="text" name="server" class="form-control" placeholder="Server" />
+            <input type="text" name="ips" style="min-width: 300px" class="form-control" placeholder="输入IP段(eg:192.168.1.0/24)"  />
+            <input class="btn btn-primary" name="nmap" value="Nmap扫描" type="submit"/>
+        </div>
+    </form>
+    <form action="" method="post" class="navbar-form">
+        <div class="form-inline">
+            <input type="file" class="form-control"  />
+            <button class="btn btn-primary">从文件导入</button>
+        </div>
+    </form>
+
+
+
+
+    <div class="tabbable" id="tabs-913419">
+        <ul class="nav nav-tabs">
+            {% for s in server %}
+            <li >
+                 <a href="{{ url_for('target',server=s) }}">{{ s }}</a>
+            </li>
+
+            {% endfor %}
+        </ul>
+
+    </div>
+
+
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    题目
+                </th>
+                <th style="max-width: 50px">
+                    主机IP
+                </th>
+                <th>
+                    时间
+                </th>
+                <th style="max-width: 40px">
+                    状态
+                </th>
+                <th>
+                    备注
+                </th>
+                <th style="max-width: 5px">
+                    更多
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for msg in data %}
+            <tr class="right">
+                <td>
+                    {{ msg.server }}
+                </td>
+                <td style="max-width: 50px">
+                    {{ msg.ip }}
+                </td>
+                <td style="max-width: 50px">
+                    {{ msg.time }}
+                </td>
+                <td style="max-width: 40px">
+                    {% if msg.status == 'online' %}
+                    <span class="label label-success">
+                    {{ msg.status }}
+                    </span>
+                    {% else %}
+                    <span class="label label-default">
+                    {{ msg.status }}
+                    </span>
+                    {% endif %}
+                    <span>&nbsp;</span>
+                    {% if control_status.status == 'control' %}
+                    <span class="label label-success">
+                    {{ control_status.status }}
+                    </span>
+                    {% else %}
+                    <span class="label label-default">
+                    not control
+                    </span>
+                    {% endif %}
+                </td>
+                <td>
+                    {{ msg.remarks }}
+                </td>
+                <td style="max-width: 5px">
+                    <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" id="more" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                    </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" data-toggle="modal" data-target="#Port">端口信息</a></li>
+                            <li><a href="#" data-toggle="modal" data-target="#Note" onclick="Values('{{ msg.remarks }}'),Values_hid('{{ msg.ip }}')">修改备注</a></li>
+                            <li><a href="#" data-toggle="modal" data-target="#Delete" onclick="Values_hid('{{ msg.ip }}')" style="color: crimson">删除</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <form action="{{ url_for('target') }}" method="post" class="form-inline navbar-form form-row">
+        <input type="number" class="form-control" name="second" placeholder="检测间隔时间（秒）">
+        <input type="submit" class="btn btn-success" name="status" value="开始监测各主机状态" >
+    </form>
+
+    <div class="modal fade" id="Port" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        端口信息
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                      <thead>
+                            <tr>
+                                <th>
+                                    端口
+                                </th>
+                                <th>
+                                    服务
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr class="right">
+                                <td>
+                                    aaa
+                                </td>
+                                <td>
+                                    bbb
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+    <div class="modal fade" id="Note" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        修改备注
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url_for('target') }} " method="post">
+                        <input type="hidden" id="hid_ip" name="hid_ip">
+                        <div class="form-group">
+                            <textarea id="note" name="new_remark" class="form-control" rows="3" ></textarea>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" class="form-control btn btn-primary" name="flush_remarks" value="更新">
+                        </div>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+    <div class="modal fade" id="Delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        删除记录
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url_for('target') }} " method="post">
+                        <input type="hidden" id="hid_ip2" name="hid_ip">
+                        <input type="submit" class="form-control btn btn-danger" name="delete" value="确认删除">
+
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+{% endblock %}

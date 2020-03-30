@@ -1,0 +1,13 @@
+@18:39:54--add--43301--php php -a
+@18:39:59---loss--43294--SecurityAgent /System/Library/Frameworks/Security.framework/Versions/A/MachServices/SecurityAgent.bundle/Contents/MacOS/SecurityAgent
+@18:39:59---loss--43295--authorizationhost /System/Library/Frameworks/Security.framework/Versions/A/MachServices/authorizationhost.bundle/Contents/MacOS/authorizationhost
+@18:39:59---loss--43301--php php -a
+@18:42:15--add--43344--ss-local /Users/lanvnal/Library/Application Support/ShadowsocksX-NG/ss-local -c ss-local-config.json
+@18:42:15---loss--43285--ss-local /Users/lanvnal/Library/Application Support/ShadowsocksX-NG/ss-local -c ss-local-config.json
+@18:42:25--add--43345--php php -a
+@18:42:30---loss--43345--php php -a
+@18:42:40--add--43352--php php -a
+@18:42:45---loss--43352--php php -a
+@18:42:50--add--43360--Python /usr/local/Cellar/python@2/2.7.15_1/Frameworks/Python.framework/Versions/2.7/Resources/Python.app/Contents/MacOS/Python
+@18:42:55---loss--43360--Python /usr/local/Cellar/python@2/2.7.15_1/Frameworks/Python.framework/Versions/2.7/Resources/Python.app/Contents/MacOS/Python
+@18:43:00---loss--43292--CFNetworkAgent /System/Library/Frameworks/CFNetwork.framework/Versions/A/Support/CFNetworkAgent

@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}Target{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <style></style>
+{% endblock %}
+
+{% block body %}
+    {{ super() }}
+
+
+
+    <form action="" method="post" class="navbar-form">
+        <div class="form-inline">
+            <input type="text" class="form-control" placeholder="Server" />
+            <input type="text" class="form-control" placeholder="主机IP" />
+            <select name="status" class="form-control">
+                <option value="control">control</option>
+                <option value="no control">no control</option>
+            </select>
+            <input type="text" class="form-control" placeholder="备注" />
+            <button class="btn btn-primary">手动添加</button>
+        </div>
+    </form>
+
+    <form action="" method="post" class="navbar-form">
+        <div class="form-inline">
+            <input type="file" class="form-control"  />
+            <button class="btn btn-primary">从文件导入</button>
+        </div>
+    </form>
+
+
+    <div class="tabbable" id="tabs-913419">
+        <ul class="nav nav-tabs">
+            {% for s in server %}
+            <li >
+                 <a href="{{ url_for('target',server=s) }}" data-toggle="tab">{{ s }}</a>
+            </li>
+
+            {% endfor %}
+        </ul>
+
+    </div>
+
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    主机IP
+                </th>
+                <th>
+                    时间
+                </th>
+                <th>
+                    状态
+                </th>
+                <th>
+                    备注
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for msg in data %}
+            <tr class="right">
+                <td>
+                    {{ msg.ip }}
+                </td>
+                <td>
+                    {{ msg.time }}
+                </td>
+                <td>
+                    {{ msg.status }}
+                </td>
+                <td>
+                    {{ msg.remarks }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

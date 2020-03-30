@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Target{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <style></style>
+{% endblock %}
+
+{% block body %}
+    {{ super() }}
+
+<form class="form-inline navbar-form form-row" action="{{ url_for('flag',method=1) }}" method="post">
+    <div>
+    <input type="text" class="form-control" name="command" style="min-width: 300px" placeholder="输入获取flag要执行的命令(post内容)">
+    <input type="url" class="form-control" name="receive" style="min-width: 350px" placeholder="输入提交flag的完整url，并将flag内容用$flag$代替">
+    <input type="submit" name="submit" class="btn btn-primary" >
+    </div>
+</form>
+
+<div>
+    <blockquote>
+      <p>shell可用的主机都会进行flag获取和提交。</p>
+    </blockquote>
+</div>
+{% endblock %}
